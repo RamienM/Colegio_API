@@ -9,7 +9,6 @@ import org.prueba.calificacionesh2.dto.ProfesorDTO;
 import org.prueba.calificacionesh2.entity.Usuario;
 import org.prueba.calificacionesh2.exception.ProfesorNotFoundException;
 import org.prueba.calificacionesh2.security.JwtProvider;
-import org.prueba.calificacionesh2.service.AlumnoService;
 import org.prueba.calificacionesh2.service.ProfesorService;
 import org.prueba.calificacionesh2.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;

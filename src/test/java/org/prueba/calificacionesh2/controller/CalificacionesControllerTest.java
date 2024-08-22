@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prueba.calificacionesh2.dto.CalificacionDTO;
 import org.prueba.calificacionesh2.dto.NotasEstudianteProfesorODT;
-import org.prueba.calificacionesh2.entity.Calificacion;
 import org.prueba.calificacionesh2.entity.Usuario;
 import org.prueba.calificacionesh2.exception.AlumnoNotFoundException;
 import org.prueba.calificacionesh2.exception.AsignaturaNotFoundException;

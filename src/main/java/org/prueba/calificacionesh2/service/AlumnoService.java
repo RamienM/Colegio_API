@@ -4,7 +4,6 @@ import org.prueba.calificacionesh2.dto.AlumnoDTO;
 import org.prueba.calificacionesh2.entity.Alumno;
 import org.prueba.calificacionesh2.exception.AlumnoNotFoundException;
 import org.prueba.calificacionesh2.repository.AlumnoRepository;
-import org.prueba.calificacionesh2.repository.CalificacionesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
