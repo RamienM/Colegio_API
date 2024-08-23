@@ -52,9 +52,7 @@ public class AsignaturasController {
     public ResponseEntity<AsignaturaDTO> updateAsignatura(@PathVariable Integer id, @RequestBody AsignaturaDTO asignaturaDTO) {
         try {
             return new ResponseEntity<>(asignaturaService.updateAsignatura(id, asignaturaDTO),HttpStatus.OK);
-        }catch (AsignaturaNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (ProfesorNotFoundException e){
+        }catch (AsignaturaNotFoundException | ProfesorNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -63,7 +61,7 @@ public class AsignaturasController {
     @DeleteMapping("/asignaturas/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
-    public ResponseEntity deleteAsignatura(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteAsignatura(@PathVariable Integer id) {
         try {
             asignaturaService.deleteAsignatura(id);
             return new ResponseEntity<>(HttpStatus.OK);

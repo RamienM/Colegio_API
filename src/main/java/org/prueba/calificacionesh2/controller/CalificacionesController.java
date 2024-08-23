@@ -33,9 +33,7 @@ public class CalificacionesController {
     public ResponseEntity<CalificacionDTO> addCalificaciones(@RequestBody CalificacionDTO calificacionesDTO) {
         try {
             return new ResponseEntity<>(calificacionesService.addCalificaciones(calificacionesDTO), HttpStatus.CREATED);
-        }catch (AsignaturaNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (AlumnoNotFoundException e){
+        }catch (AsignaturaNotFoundException | AlumnoNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -45,18 +43,14 @@ public class CalificacionesController {
     public ResponseEntity<CalificacionDTO> updateCalificaciones(@PathVariable int id, @RequestBody CalificacionDTO calificacionesDTO) {
         try {
             return new ResponseEntity<>(calificacionesService.updateCalificaciones(id, calificacionesDTO), HttpStatus.OK);
-        }catch (CalificacionNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (AsignaturaNotFoundException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (AlumnoNotFoundException e){
+        }catch (CalificacionNotFoundException | AlumnoNotFoundException | AsignaturaNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
     @DeleteMapping("/calificaciones/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity deleteCalificaciones(@PathVariable int id) {
+    public ResponseEntity<Void> deleteCalificaciones(@PathVariable int id) {
         try {
             calificacionesService.deleteCalificaciones(id);
             return new ResponseEntity<>(HttpStatus.OK);

@@ -5,7 +5,6 @@ import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundExceptio
 import org.prueba.calificacionesh2.business.exception.ProfesorNotFoundException;
 import org.prueba.calificacionesh2.persistence.entity.Asignatura;
 import org.prueba.calificacionesh2.persistence.repository.AsignaturasRepository;
-import org.prueba.calificacionesh2.persistence.repository.CalificacionesRepository;
 import org.prueba.calificacionesh2.persistence.repository.ProfesorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,6 @@ public class AsignaturasService {
     private AsignaturasRepository asignaturasRepository;
     @Autowired
     private ProfesorRepository profesorRepository;
-    @Autowired
-    private CalificacionesRepository calificacionesRepository;
 
     public List<AsignaturaDTO> getAllAsignaturas() {
         var asignaturasDTO = new ArrayList<AsignaturaDTO>();

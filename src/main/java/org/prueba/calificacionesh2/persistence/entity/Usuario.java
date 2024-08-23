@@ -3,7 +3,8 @@ package org.prueba.calificacionesh2.persistence.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Data
+@Setter
+@Getter
 @Table(name = "usuario")
 public class Usuario extends Persona implements UserDetails {
     private String username;
