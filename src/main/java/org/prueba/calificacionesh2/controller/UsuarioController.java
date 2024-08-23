@@ -1,6 +1,5 @@
 package org.prueba.calificacionesh2.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.prueba.calificacionesh2.business.dto.UsuarioLoginDTO;
 import org.prueba.calificacionesh2.business.dto.UsuarioRegisterDTO;
@@ -32,13 +31,12 @@ public class UsuarioController {
 
     @PostMapping("/auth/register")
     public Usuario registro(@RequestBody UsuarioRegisterDTO register){
-        var usuario = usuarioService.registrarUsuario(register);
-        return usuario;
+        return usuarioService.registrarUsuario(register);
     }
 
 
     @PostMapping("/auth/login")
-    public String login(@Valid @RequestBody UsuarioLoginDTO inicio, HttpServletResponse response, BindingResult bindingResult) {
+    public String login(@Valid @RequestBody UsuarioLoginDTO inicio, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
@@ -52,9 +50,8 @@ public class UsuarioController {
             Usuario user = usuarioService.loadUserByUsername(inicio.getUsername());
 
             // Generar el token JWT
-            String token = jwtProvider.generateToken(user);
 
-            return token;
+            return jwtProvider.generateToken(user);
         } else {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
