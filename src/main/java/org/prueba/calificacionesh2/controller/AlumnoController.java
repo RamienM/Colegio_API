@@ -2,9 +2,9 @@ package org.prueba.calificacionesh2.controller;
 
 
 import jakarta.validation.Valid;
-import org.prueba.calificacionesh2.dto.AlumnoDTO;
-import org.prueba.calificacionesh2.exception.AlumnoNotFoundException;
-import org.prueba.calificacionesh2.service.AlumnoService;
+import org.prueba.calificacionesh2.business.dto.AlumnoDTO;
+import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
+import org.prueba.calificacionesh2.business.service.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

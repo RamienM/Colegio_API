@@ -1,6 +1,6 @@
 package org.prueba.calificacionesh2.security;
 
-import org.prueba.calificacionesh2.service.UsuarioService;
+import org.prueba.calificacionesh2.business.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

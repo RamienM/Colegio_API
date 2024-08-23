@@ -1,11 +1,11 @@
 package org.prueba.calificacionesh2.controller;
 
-import org.prueba.calificacionesh2.dto.CalificacionDTO;
-import org.prueba.calificacionesh2.dto.NotasEstudianteProfesorODT;
-import org.prueba.calificacionesh2.exception.AlumnoNotFoundException;
-import org.prueba.calificacionesh2.exception.AsignaturaNotFoundException;
-import org.prueba.calificacionesh2.exception.CalificacionNotFoundException;
-import org.prueba.calificacionesh2.service.CalificacionesService;
+import org.prueba.calificacionesh2.business.dto.CalificacionDTO;
+import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorODT;
+import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
+import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
+import org.prueba.calificacionesh2.business.exception.CalificacionNotFoundException;
+import org.prueba.calificacionesh2.business.service.CalificacionesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
