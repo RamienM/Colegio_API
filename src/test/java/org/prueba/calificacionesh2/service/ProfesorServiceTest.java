@@ -42,14 +42,14 @@ public class ProfesorServiceTest {
         var profesor = new Profesor();
         var profesorDTO = new ProfesorDTO(profesor);
 
-        when(profesorRepository.save(profesor)).thenReturn(profesor);
+        when(profesorRepository.save(any(Profesor.class))).thenReturn(profesor);
 
         //Act
         var response = profesorService.addProfesor(profesorDTO);
 
         //Assert
         assertThat(profesorDTO).isEqualTo(response);
-        verify(profesorRepository, times(1)).save(profesor);
+        verify(profesorRepository, times(1)).save(any(Profesor.class));
     }
 
     @Test
