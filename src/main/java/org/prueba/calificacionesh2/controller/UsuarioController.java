@@ -2,11 +2,11 @@ package org.prueba.calificacionesh2.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.prueba.calificacionesh2.dto.UsuarioLoginDTO;
-import org.prueba.calificacionesh2.dto.UsuarioRegisterDTO;
-import org.prueba.calificacionesh2.entity.Usuario;
+import org.prueba.calificacionesh2.business.dto.UsuarioLoginDTO;
+import org.prueba.calificacionesh2.business.dto.UsuarioRegisterDTO;
+import org.prueba.calificacionesh2.persistence.entity.Usuario;
 import org.prueba.calificacionesh2.security.JwtProvider;
-import org.prueba.calificacionesh2.service.UsuarioService;
+import org.prueba.calificacionesh2.business.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,10 +1,8 @@
 package org.prueba.calificacionesh2.controller;
 
-import org.prueba.calificacionesh2.dto.NotasEstudianteProfesorODT;
-import org.prueba.calificacionesh2.dto.ProfesorDTO;
-import org.prueba.calificacionesh2.entity.Profesor;
-import org.prueba.calificacionesh2.exception.ProfesorNotFoundException;
-import org.prueba.calificacionesh2.service.ProfesorService;
+import org.prueba.calificacionesh2.business.dto.ProfesorDTO;
+import org.prueba.calificacionesh2.business.exception.ProfesorNotFoundException;
+import org.prueba.calificacionesh2.business.service.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
