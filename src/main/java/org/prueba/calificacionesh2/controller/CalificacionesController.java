@@ -19,11 +19,11 @@ public class CalificacionesController {
     @Autowired
     private CalificacionesService calificacionesService;
     @GetMapping("/calificaciones")
-    public List<CalificacionDTO> getAllCalificaciones(){ return calificacionesService.getAllCalificaciones();}
+    public List<CalificacionDTO> getAllCalificaciones(){ return calificacionesService.getAll();}
     @GetMapping("/calificaciones/{id}")
     public ResponseEntity<CalificacionDTO> getCalificacionesById(@PathVariable int id) {
         try {
-            return new ResponseEntity<>(calificacionesService.getCalificacionesById(id), HttpStatus.OK);
+            return new ResponseEntity<>(calificacionesService.getById(id), HttpStatus.OK);
         }catch (CalificacionNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -32,7 +32,7 @@ public class CalificacionesController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<CalificacionDTO> addCalificaciones(@RequestBody CalificacionDTO calificacionesDTO) {
         try {
-            return new ResponseEntity<>(calificacionesService.addCalificaciones(calificacionesDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(calificacionesService.add(calificacionesDTO), HttpStatus.CREATED);
         }catch (AsignaturaNotFoundException | AlumnoNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -42,7 +42,7 @@ public class CalificacionesController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<CalificacionDTO> updateCalificaciones(@PathVariable int id, @RequestBody CalificacionDTO calificacionesDTO) {
         try {
-            return new ResponseEntity<>(calificacionesService.updateCalificaciones(id, calificacionesDTO), HttpStatus.OK);
+            return new ResponseEntity<>(calificacionesService.update(calificacionesDTO,id), HttpStatus.OK);
         }catch (CalificacionNotFoundException | AlumnoNotFoundException | AsignaturaNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -52,7 +52,7 @@ public class CalificacionesController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCalificaciones(@PathVariable int id) {
         try {
-            calificacionesService.deleteCalificaciones(id);
+            calificacionesService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (CalificacionNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

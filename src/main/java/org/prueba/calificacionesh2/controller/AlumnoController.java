@@ -21,14 +21,14 @@ public class AlumnoController {
     @GetMapping("/alumnos")
     @ResponseBody
     public List<AlumnoDTO> getAllAlumnos() {
-        return alumnoService.getAllAlumnos();
+        return alumnoService.getAll();
     }
 
     @GetMapping("/alumnos/{id}")
     @ResponseBody
     public ResponseEntity<AlumnoDTO> getAlumno(@PathVariable Integer id) {
         try {
-            return new ResponseEntity<>(alumnoService.getAlumnoById(id), HttpStatus.OK);
+            return new ResponseEntity<>(alumnoService.getById(id), HttpStatus.OK);
         }catch(AlumnoNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -38,7 +38,7 @@ public class AlumnoController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
     public ResponseEntity<AlumnoDTO> addAlumno(@Valid @RequestBody AlumnoDTO alumnoPostDTO) {
-        return new ResponseEntity<>(alumnoService.addAlumno(alumnoPostDTO),HttpStatus.CREATED);
+        return new ResponseEntity<>(alumnoService.add(alumnoPostDTO),HttpStatus.CREATED);
     }
 
     @PatchMapping("/alumnos/{id}")
@@ -46,7 +46,7 @@ public class AlumnoController {
     @ResponseBody
     public ResponseEntity<AlumnoDTO> updateAlumno(@PathVariable Integer id, @RequestBody AlumnoDTO alumnoPostDTO) {
         try {
-            return new ResponseEntity<>(alumnoService.updateAlumno(id, alumnoPostDTO), HttpStatus.OK);
+            return new ResponseEntity<>(alumnoService.update(alumnoPostDTO, id), HttpStatus.OK);
         }catch (AlumnoNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -58,7 +58,7 @@ public class AlumnoController {
     @ResponseBody
     public ResponseEntity<Void> deleteAlumno(@PathVariable Integer id) {
         try {
-            alumnoService.deleteAlumno(id);
+            alumnoService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (AlumnoNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

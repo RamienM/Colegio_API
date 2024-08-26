@@ -2,6 +2,7 @@ package org.prueba.calificacionesh2.business.service;
 
 
 import org.prueba.calificacionesh2.business.dto.UsuarioRegisterDTO;
+import org.prueba.calificacionesh2.persistence.entity.Role;
 import org.prueba.calificacionesh2.persistence.entity.Usuario;
 import org.prueba.calificacionesh2.persistence.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UsuarioService implements UserDetailsService {
         user.setTelefono(usuario.getTelefono());
         user.setUsername(usuario.getUsername());
         user.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        user.setRol(usuario.getRol());
+        user.setRol(Role.valueOf(usuario.getRol()));
         return usuarioRepository.save(user);
     }
 }

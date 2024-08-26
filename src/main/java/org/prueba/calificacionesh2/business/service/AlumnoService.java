@@ -2,6 +2,7 @@ package org.prueba.calificacionesh2.business.service;
 
 import org.prueba.calificacionesh2.business.dto.AlumnoDTO;
 import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
+import org.prueba.calificacionesh2.business.service.interfaces.ServiceInterface;
 import org.prueba.calificacionesh2.persistence.entity.Alumno;
 import org.prueba.calificacionesh2.persistence.repository.AlumnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AlumnoService {
+public class AlumnoService implements ServiceInterface<AlumnoDTO> {
     @Autowired
     private AlumnoRepository alumnoRepository;
 
-
-    public List<AlumnoDTO> getAllAlumnos() {
+    @Override
+    public List<AlumnoDTO> getAll() {
         var alumnos = new ArrayList<AlumnoDTO>();
         for (var alumno : alumnoRepository.findAll()) {
             alumnos.add(new AlumnoDTO(alumno));
@@ -24,7 +25,8 @@ public class AlumnoService {
         return alumnos;
     }
 
-    public AlumnoDTO getAlumnoById(Integer id) throws AlumnoNotFoundException {
+    @Override
+    public AlumnoDTO getById(Integer id) throws AlumnoNotFoundException{
         var optional = alumnoRepository.findById(id);
 
         if (optional.isPresent()) { //Controlar con exception
@@ -33,7 +35,9 @@ public class AlumnoService {
             throw new AlumnoNotFoundException("No se ha podido encontrar el alumno con id: " + id);
         }
     }
-    public AlumnoDTO addAlumno(AlumnoDTO alumnoDTO) {
+
+    @Override
+    public AlumnoDTO add(AlumnoDTO alumnoDTO) {
         var alumno = new Alumno();
         alumno.setNombre(alumnoDTO.getNombre());
         alumno.setApellido(alumnoDTO.getApellido());
@@ -42,7 +46,9 @@ public class AlumnoService {
 
         return new AlumnoDTO(alumnoRepository.save(alumno));
     }
-    public AlumnoDTO updateAlumno(Integer id, AlumnoDTO alumnoDTO) throws AlumnoNotFoundException {
+
+    @Override
+    public AlumnoDTO update(AlumnoDTO alumnoDTO, Integer id) throws AlumnoNotFoundException{
         var exitsAlumno = alumnoRepository.findById(id);
         if (exitsAlumno.isPresent()) { //Realizar con una exception
             Alumno updatedAlumno = exitsAlumno.get();
@@ -55,7 +61,9 @@ public class AlumnoService {
             throw new AlumnoNotFoundException("No se ha podido encontrar el alumno con id: " + id);
         }
     }
-    public void deleteAlumno(Integer id) throws AlumnoNotFoundException {
+
+    @Override
+    public void delete(Integer id) throws AlumnoNotFoundException{
         var alumno = alumnoRepository.findById(id);
         if (alumno.isPresent()) {
             alumnoRepository.delete(alumno.get());

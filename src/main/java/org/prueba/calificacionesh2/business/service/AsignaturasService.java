@@ -3,6 +3,7 @@ package org.prueba.calificacionesh2.business.service;
 import org.prueba.calificacionesh2.business.dto.AsignaturaDTO;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
 import org.prueba.calificacionesh2.business.exception.ProfesorNotFoundException;
+import org.prueba.calificacionesh2.business.service.interfaces.ServiceInterface;
 import org.prueba.calificacionesh2.persistence.entity.Asignatura;
 import org.prueba.calificacionesh2.persistence.repository.AsignaturasRepository;
 import org.prueba.calificacionesh2.persistence.repository.ProfesorRepository;
@@ -14,27 +15,32 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AsignaturasService {
+public class AsignaturasService implements ServiceInterface<AsignaturaDTO> {
     @Autowired
     private AsignaturasRepository asignaturasRepository;
     @Autowired
     private ProfesorRepository profesorRepository;
 
-    public List<AsignaturaDTO> getAllAsignaturas() {
+    @Override
+    public List<AsignaturaDTO> getAll() {
         var asignaturasDTO = new ArrayList<AsignaturaDTO>();
         for (Asignatura asignatura : asignaturasRepository.findAll()) {
             asignaturasDTO.add(new AsignaturaDTO(asignatura));
         }
         return asignaturasDTO;
     }
-    public AsignaturaDTO getAsignaturaById(Integer id) throws AsignaturaNotFoundException {
+
+    @Override
+    public AsignaturaDTO getById(Integer id) throws AsignaturaNotFoundException {
         var optionalAsignatura = asignaturasRepository.findById(id);
         if (optionalAsignatura.isPresent()) { //En caso contrario devolver exception
             return new AsignaturaDTO(optionalAsignatura.get());
         }
         throw new AsignaturaNotFoundException("No se ha podido encontrar la asignatura con el id: " + id);
     }
-    public AsignaturaDTO addAsignatura(AsignaturaDTO asignaturaDTO) throws ProfesorNotFoundException {
+
+    @Override
+    public AsignaturaDTO add(AsignaturaDTO asignaturaDTO) throws ProfesorNotFoundException {
         var optinalProfesor = profesorRepository.findById(asignaturaDTO.getIdProfesor());
         if (optinalProfesor.isPresent()) { //En caso contrarios devolver exception
             var asignatura = new Asignatura();
@@ -44,7 +50,9 @@ public class AsignaturasService {
         }
         throw new ProfesorNotFoundException("No se ha podido encontrar el profesor con id: "+ asignaturaDTO.getIdProfesor());
     }
-    public AsignaturaDTO updateAsignatura(Integer id, AsignaturaDTO asignaturaDTO) throws AsignaturaNotFoundException, ProfesorNotFoundException {
+
+    @Override
+    public AsignaturaDTO update(AsignaturaDTO asignaturaDTO, Integer id) throws AsignaturaNotFoundException, ProfesorNotFoundException {
         Optional<Asignatura> exitsAsignatura = asignaturasRepository.findById(id);
         if (exitsAsignatura.isPresent()) {
             Asignatura updatedAsignatura = exitsAsignatura.get();
@@ -62,7 +70,9 @@ public class AsignaturasService {
         }
         throw new AsignaturaNotFoundException("No se ha podido encontrar la asignatura con el id: " + id);
     }
-    public void deleteAsignatura(Integer id) throws AsignaturaNotFoundException {
+
+    @Override
+    public void delete(Integer id) throws AsignaturaNotFoundException {
         var asignatura = asignaturasRepository.findById(id);
         if (asignatura.isPresent()){
             asignaturasRepository.delete(asignatura.get());
@@ -70,4 +80,5 @@ public class AsignaturasService {
         }
         throw new AsignaturaNotFoundException("No se ha podido encontrar la asignatura con el id: " + id);
     }
+
 }

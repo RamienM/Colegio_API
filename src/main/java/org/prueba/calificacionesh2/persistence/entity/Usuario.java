@@ -19,12 +19,12 @@ import java.util.List;
 public class Usuario extends Persona implements UserDetails {
     private String username;
     private String password;
-    private String rol;
+    private Role rol;
 
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol));
+        return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
     @Override
