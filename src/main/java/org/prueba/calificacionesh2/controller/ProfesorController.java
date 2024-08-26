@@ -19,14 +19,14 @@ public class ProfesorController {
     @GetMapping("/profesores")
     @ResponseBody
     public List<ProfesorDTO> getAllProfesores() {
-        return profesorService.getAllProfesores();
+        return profesorService.getAll();
     }
 
     @GetMapping("/profesores/{id}")
     @ResponseBody
     public ResponseEntity<ProfesorDTO> getProfesor(@PathVariable Integer id) {
         try {
-            return new ResponseEntity<>(profesorService.getProfesorById(id), HttpStatus.OK);
+            return new ResponseEntity<>(profesorService.getById(id), HttpStatus.OK);
         }catch (ProfesorNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -36,7 +36,7 @@ public class ProfesorController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
     public ResponseEntity<ProfesorDTO> addProfesor(@RequestBody ProfesorDTO profesorDTO) {
-        return new ResponseEntity<>(profesorService.addProfesor(profesorDTO),HttpStatus.CREATED);
+        return new ResponseEntity<>(profesorService.add(profesorDTO),HttpStatus.CREATED);
     }
 
     @PatchMapping("/profesores/{id}")
@@ -44,7 +44,7 @@ public class ProfesorController {
     @ResponseBody
     public ResponseEntity<ProfesorDTO> updateProfesor(@PathVariable Integer id, @RequestBody ProfesorDTO profesorDTO) {
         try {
-            return new ResponseEntity<>(profesorService.updateProfesor(id, profesorDTO), HttpStatus.OK);
+            return new ResponseEntity<>(profesorService.update(profesorDTO, id), HttpStatus.OK);
         }catch (ProfesorNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -55,7 +55,7 @@ public class ProfesorController {
     @ResponseBody
     public ResponseEntity<Void> deleteProfesor(@PathVariable Integer id) {
         try {
-            profesorService.deleteProfesor(id);
+            profesorService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (ProfesorNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

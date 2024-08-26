@@ -5,6 +5,7 @@ import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorODT;
 import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
 import org.prueba.calificacionesh2.business.exception.CalificacionNotFoundException;
+import org.prueba.calificacionesh2.business.service.interfaces.ServiceInterface;
 import org.prueba.calificacionesh2.persistence.entity.Calificacion;
 import org.prueba.calificacionesh2.persistence.repository.AlumnoRepository;
 import org.prueba.calificacionesh2.persistence.repository.AsignaturasRepository;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CalificacionesService {
+public class CalificacionesService implements ServiceInterface<CalificacionDTO> {
     @Autowired
     private CalificacionesRepository calificacionesRepository;
     @Autowired
@@ -24,7 +25,8 @@ public class CalificacionesService {
     @Autowired
     private AsignaturasRepository asignaturasRepository;
 
-    public List<CalificacionDTO> getAllCalificaciones(){
+    @Override
+    public List<CalificacionDTO> getAll() {
         var calificaciones = new ArrayList<CalificacionDTO>();
         for(var calificacion : calificacionesRepository.findAll()){
             calificaciones.add(new CalificacionDTO(calificacion));
@@ -32,7 +34,8 @@ public class CalificacionesService {
         return calificaciones;
     }
 
-    public CalificacionDTO getCalificacionesById(Integer id) throws CalificacionNotFoundException {
+    @Override
+    public CalificacionDTO getById(Integer id) throws CalificacionNotFoundException {
         var calificacion = calificacionesRepository.findById(id);
         if(calificacion.isPresent()){
             return new CalificacionDTO(calificacion.get());
@@ -40,7 +43,8 @@ public class CalificacionesService {
         throw new CalificacionNotFoundException("No se ha podido encontrar la calificacion con el id: " + id);
     }
 
-    public CalificacionDTO addCalificaciones(CalificacionDTO calificacionDTO) throws AlumnoNotFoundException, AsignaturaNotFoundException {
+    @Override
+    public CalificacionDTO add(CalificacionDTO calificacionDTO) throws AlumnoNotFoundException, AsignaturaNotFoundException {
         var alumno = alumnoRepository.findById(calificacionDTO.getIdAlumno());
         var asignatura = asignaturasRepository.findById(calificacionDTO.getIdAsignatura());
         if(alumno.isPresent()){
@@ -56,7 +60,8 @@ public class CalificacionesService {
         throw new AlumnoNotFoundException("No se ha encontrado el alumno con id: " + calificacionDTO.getIdAlumno());
     }
 
-    public CalificacionDTO updateCalificaciones(Integer id, CalificacionDTO calificacionDTO) throws CalificacionNotFoundException, AsignaturaNotFoundException, AlumnoNotFoundException{
+    @Override
+    public CalificacionDTO update(CalificacionDTO calificacionDTO, Integer id) throws CalificacionNotFoundException, AsignaturaNotFoundException, AlumnoNotFoundException {
         var calificacion = calificacionesRepository.findById(id);
         if(calificacion.isPresent()){
             Calificacion updateCalificacion = calificacion.get();
@@ -85,7 +90,8 @@ public class CalificacionesService {
         throw new CalificacionNotFoundException("No se ha podido encontrar la calificacion con el id: " + id);
     }
 
-    public void deleteCalificaciones(Integer id) throws CalificacionNotFoundException {
+    @Override
+    public void delete(Integer id) throws CalificacionNotFoundException {
         var calificacion = calificacionesRepository.findById(id);
         if(calificacion.isPresent()){
             calificacionesRepository.delete(calificacion.get());
@@ -93,6 +99,7 @@ public class CalificacionesService {
         }
         throw new CalificacionNotFoundException("No se ha podido encontrar la calificacion con el id: " + id);
     }
+
 
     public List<NotasEstudianteProfesorODT> getCalificacionesEstudiantesAndAsignaturasByIdProfesor(Integer idProfesor){
         var calificaciones = calificacionesRepository.findCalificacionesByProfesorId(idProfesor);

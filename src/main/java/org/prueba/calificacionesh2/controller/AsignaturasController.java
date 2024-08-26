@@ -21,14 +21,14 @@ public class AsignaturasController {
     @GetMapping("/asignaturas")
     @ResponseBody
     public List<AsignaturaDTO> getAllAsignaturas() {
-        return asignaturaService.getAllAsignaturas();
+        return asignaturaService.getAll();
     }
 
     @GetMapping("/asignaturas/{id}")
     @ResponseBody
     public ResponseEntity<AsignaturaDTO> getAsignatura(@PathVariable Integer id) {
         try {
-            return new ResponseEntity<>(asignaturaService.getAsignaturaById(id), HttpStatus.OK);
+            return new ResponseEntity<>(asignaturaService.getById(id), HttpStatus.OK);
         }catch (AsignaturaNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -40,7 +40,7 @@ public class AsignaturasController {
     @ResponseBody
     public ResponseEntity<AsignaturaDTO> addAsignatura(@RequestBody AsignaturaDTO asignaturaDTO) {
         try {
-            return new ResponseEntity<>(asignaturaService.addAsignatura(asignaturaDTO),HttpStatus.CREATED);
+            return new ResponseEntity<>(asignaturaService.add(asignaturaDTO),HttpStatus.CREATED);
         }catch (ProfesorNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -51,7 +51,7 @@ public class AsignaturasController {
     @ResponseBody
     public ResponseEntity<AsignaturaDTO> updateAsignatura(@PathVariable Integer id, @RequestBody AsignaturaDTO asignaturaDTO) {
         try {
-            return new ResponseEntity<>(asignaturaService.updateAsignatura(id, asignaturaDTO),HttpStatus.OK);
+            return new ResponseEntity<>(asignaturaService.update(asignaturaDTO, id),HttpStatus.OK);
         }catch (AsignaturaNotFoundException | ProfesorNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -63,7 +63,7 @@ public class AsignaturasController {
     @ResponseBody
     public ResponseEntity<Void> deleteAsignatura(@PathVariable Integer id) {
         try {
-            asignaturaService.deleteAsignatura(id);
+            asignaturaService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (AsignaturaNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
