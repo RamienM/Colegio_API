@@ -32,9 +32,13 @@ b.	Una calificación debe poder conocer a que asignatura pertenece.
 
 #### Arquitectura
 Como arquitectura principal se ha usado una de 3 capas:
+
 •	Capa de presentación -> Controlador donde se controlan las peticiones externas.
+
 •	Capa de negocio -> Servicio donde se procesan las peticiones que le manda el controlador.
+
 •	Capa de persistencia -> Repositorio donde se realizan las operaciones en la base de datos que son pedidas por la capa de negocio.
+
 La razón por lo que se ha optado por esta arquitectura es por su fácil mantenimiento y ordenación. Además, asegura una alta cohesión y bajo acoplamiento.
 
 #  Tecnologías Usadas
