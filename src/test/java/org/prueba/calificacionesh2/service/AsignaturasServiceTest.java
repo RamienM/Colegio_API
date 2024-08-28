@@ -58,7 +58,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.save(any(Asignatura.class))).thenReturn(asignatura);
 
         // Act
-        AsignaturaDTO result = asignaturasService.addAsignatura(asignaturaDTO);
+        AsignaturaDTO result = asignaturasService.add(asignaturaDTO);
 
         // Assert
         assertThat(result.getNombreAsignatura()).isEqualTo(asignaturaDTO.getNombreAsignatura());
@@ -76,7 +76,7 @@ public class AsignaturasServiceTest {
         when(profesorRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, ()->{asignaturasService.addAsignatura(asignaturaDTO);});
+        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, ()->{asignaturasService.add(asignaturaDTO);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -95,7 +95,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.findAll()).thenReturn(asignaturas);
 
         //Act
-        var response = asignaturasService.getAllAsignaturas();
+        var response = asignaturasService.getAll();
 
         //Assert
         assertThat(asignaturasDTO).isEqualTo(response);
@@ -108,7 +108,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.findAll()).thenReturn(new ArrayList<>());
 
         //Act
-        var response = asignaturasService.getAllAsignaturas();
+        var response = asignaturasService.getAll();
 
         //Assert
         assertThat(response).isEmpty();
@@ -129,7 +129,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.findById(id)).thenReturn(Optional.of(asignatura));
 
         //Act
-        var response = asignaturasService.getAsignaturaById(id);
+        var response = asignaturasService.getById(id);
 
         //Assert
         assertThat(asignaturaDTO).isEqualTo(response);
@@ -144,7 +144,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class, ()->{asignaturasService.getAsignaturaById(id);});
+        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class, ()->{asignaturasService.getById(id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -171,7 +171,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.save(any(Asignatura.class))).thenReturn(asignatura);
 
         //Act
-        var response = asignaturasService.updateAsignatura(id,asignaturaDTO);
+        var response = asignaturasService.update(asignaturaDTO,id);
 
         //Assert
         assertThat(asignaturaDTO).isEqualTo(response);
@@ -189,7 +189,7 @@ public class AsignaturasServiceTest {
 
         //Act
 
-        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class, () -> {asignaturasService.updateAsignatura(id, new AsignaturaDTO());});
+        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class, () -> {asignaturasService.update(new AsignaturaDTO(),id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -207,7 +207,7 @@ public class AsignaturasServiceTest {
         when(profesorRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, () ->{asignaturasService.updateAsignatura(id, asignatura);});
+        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, () ->{asignaturasService.update(asignatura, id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -226,7 +226,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.findById(id)).thenReturn(Optional.of(asignatura));
 
         // Act
-        asignaturasService.deleteAsignatura(id);
+        asignaturasService.delete(id);
 
         // Assert
         verify(asignaturasRepository, times(1)).findById(id);
@@ -241,7 +241,7 @@ public class AsignaturasServiceTest {
         when(asignaturasRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class,() -> {asignaturasService.deleteAsignatura(id);});
+        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class,() -> {asignaturasService.delete(id);});
 
         //Assert
         Assertions.assertNotNull(exp);

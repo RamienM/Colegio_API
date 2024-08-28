@@ -1,7 +1,7 @@
 package org.prueba.calificacionesh2.controller;
 
 import org.prueba.calificacionesh2.business.dto.CalificacionDTO;
-import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorODT;
+import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorDTO;
 import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
 import org.prueba.calificacionesh2.business.exception.CalificacionNotFoundException;
@@ -60,12 +60,12 @@ public class CalificacionesController {
     }
 
     @GetMapping("/calificaciones/profesor/{id}")
-    public List<NotasEstudianteProfesorODT> getCalificacionesEstudiantesAndAsignaturasByProfesor(@PathVariable Integer id) {
+    public List<NotasEstudianteProfesorDTO> getCalificacionesEstudiantesAndAsignaturasByProfesor(@PathVariable Integer id) {
         return calificacionesService.getCalificacionesEstudiantesAndAsignaturasByIdProfesor(id);
     }
 
     @GetMapping("/calificaciones/alumno/{id}")
-    public List<NotasEstudianteProfesorODT> getCalificacionesAndAsignaturasByAlumno(@PathVariable Integer id) {
+    public List<NotasEstudianteProfesorDTO> getCalificacionesAndAsignaturasByAlumno(@PathVariable Integer id) {
         return calificacionesService.getCalificacionesAndAsignaturasByIdAlumno(id);
     }
 }

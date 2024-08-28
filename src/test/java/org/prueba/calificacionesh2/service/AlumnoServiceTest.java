@@ -45,7 +45,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.save(any(Alumno.class))).thenReturn(alumno);
 
         //Act
-        var response = alumnoService.addAlumno(alumnoDTO);
+        var response = alumnoService.add(alumnoDTO);
 
         //Assert
         assertThat(alumnoDTO).isEqualTo(response);
@@ -64,7 +64,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findAll()).thenReturn(alumnos);
 
         //Act
-        var response = alumnoService.getAllAlumnos();
+        var response = alumnoService.getAll();
 
         //Assert
         assertThat(alumnosDTO).isEqualTo(response);
@@ -77,7 +77,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findAll()).thenReturn(new ArrayList<>());
 
         //Act
-        var response = alumnoService.getAllAlumnos();
+        var response = alumnoService.getAll();
 
         //Assert
         assertThat(response).isEmpty();
@@ -96,7 +96,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.of(alumno));
 
         //Act
-        var response = alumnoService.getAlumnoById(id);
+        var response = alumnoService.getById(id);
 
         //Assert
         assertThat(alumnoDTO).isEqualTo(response);
@@ -111,7 +111,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(AlumnoNotFoundException.class, () -> {alumnoService.getAlumnoById(id);});
+        var exp = Assertions.assertThrows(AlumnoNotFoundException.class, () -> {alumnoService.getById(id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -133,7 +133,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.save(any(Alumno.class))).thenReturn(alumno);
 
         //Act
-        var response = alumnoService.updateAlumno(id,alumnoDTO);
+        var response = alumnoService.update(alumnoDTO,id);
 
         //Assert
         assertThat(alumnoDTO).isEqualTo(response);
@@ -149,7 +149,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(AlumnoNotFoundException.class, () -> {alumnoService.updateAlumno(id,new AlumnoDTO());});
+        var exp = Assertions.assertThrows(AlumnoNotFoundException.class, () -> {alumnoService.update(new AlumnoDTO(),id);});
 
         //Assetions
         Assertions.assertNotNull(exp);
@@ -167,7 +167,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.of(alumno));
 
         //Act
-        alumnoService.deleteAlumno(id);
+        alumnoService.delete(id);
 
         //Assert
         verify(alumnoRepository, times(1)).findById(id);
@@ -182,7 +182,7 @@ public class AlumnoServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-       var exp = Assertions.assertThrows(AlumnoNotFoundException.class,()->{alumnoService.deleteAlumno(id);});
+       var exp = Assertions.assertThrows(AlumnoNotFoundException.class,()->{alumnoService.delete(id);});
 
         //Assetion
         Assertions.assertNotNull(exp);

@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prueba.calificacionesh2.business.dto.CalificacionDTO;
-import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorODT;
+import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorDTO;
 import org.prueba.calificacionesh2.business.service.CalificacionesService;
 import org.prueba.calificacionesh2.persistence.entity.Alumno;
 import org.prueba.calificacionesh2.persistence.entity.Asignatura;
@@ -72,7 +72,7 @@ public class CalificacionesServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.of(alumno));
 
         //Act
-        var response = calificacionesService.addCalificaciones(calificacionDTO);
+        var response = calificacionesService.add(calificacionDTO);
 
         //Assert
         assertThat(calificacionDTO).isEqualTo(response);
@@ -93,7 +93,7 @@ public class CalificacionesServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(AlumnoNotFoundException.class,()->{calificacionesService.addCalificaciones(calificacion);});
+        var exp = Assertions.assertThrows(AlumnoNotFoundException.class,()->{calificacionesService.add(calificacion);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -113,7 +113,7 @@ public class CalificacionesServiceTest {
         when(alumnoRepository.findById(id)).thenReturn(Optional.of(new Alumno()));
 
         //Act
-        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class,()->{calificacionesService.addCalificaciones(calificacion);});
+        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class,()->{calificacionesService.add(calificacion);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -133,7 +133,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findAll()).thenReturn(calificaciones);
 
         //Act
-        var response = calificacionesService.getAllCalificaciones();
+        var response = calificacionesService.getAll();
 
         //Assert
         assertThat(calificacionDTOs).isEqualTo(response);
@@ -146,7 +146,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findAll()).thenReturn(new ArrayList<>());
 
         //Act
-        var response = calificacionesService.getAllCalificaciones();
+        var response = calificacionesService.getAll();
 
         //Assert
         assertThat(response).isEmpty();
@@ -166,7 +166,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findById(id)).thenReturn(Optional.of(calificacion));
 
         //Act
-        var response = calificacionesService.getCalificacionesById(id);
+        var response = calificacionesService.getById(id);
 
         //Assert
         assertThat(calificacionDTO).isEqualTo(response);
@@ -181,7 +181,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(CalificacionNotFoundException.class,()->{calificacionesService.getCalificacionesById(id);});
+        var exp = Assertions.assertThrows(CalificacionNotFoundException.class,()->{calificacionesService.getById(id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -213,7 +213,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.save(any(Calificacion.class))).thenReturn(calificacion);
 
         //Act
-        var response = calificacionesService.updateCalificaciones(id, calificacionDTO);
+        var response = calificacionesService.update(calificacionDTO, id);
 
         //Assert
         assertThat(calificacionDTO).isEqualTo(response);
@@ -231,7 +231,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(CalificacionNotFoundException.class, ()->{calificacionesService.updateCalificaciones(id,new CalificacionDTO());});
+        var exp = Assertions.assertThrows(CalificacionNotFoundException.class, ()->{calificacionesService.update(new CalificacionDTO(), id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -255,7 +255,7 @@ public class CalificacionesServiceTest {
         when(asignaturasRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class,()->{calificacionesService.updateCalificaciones(id, new CalificacionDTO(calificacion));});
+        var exp = Assertions.assertThrows(AsignaturaNotFoundException.class,()->{calificacionesService.update(new CalificacionDTO(calificacion), id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -279,7 +279,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findById(id)).thenReturn(Optional.of(calificacion));
         when(alumnoRepository.findById(id)).thenReturn(Optional.empty());
         //Act
-        var exp = Assertions.assertThrows(AlumnoNotFoundException.class,()->{calificacionesService.updateCalificaciones(id, new CalificacionDTO(calificacion));});
+        var exp = Assertions.assertThrows(AlumnoNotFoundException.class,()->{calificacionesService.update(new CalificacionDTO(calificacion), id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -298,7 +298,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findById(id)).thenReturn(Optional.of(calificacion));
 
         //Act
-        calificacionesService.deleteCalificaciones(id);
+        calificacionesService.delete(id);
 
         //Assert
         verify(calificacionesRepository, times(1)).findById(id);
@@ -312,7 +312,7 @@ public class CalificacionesServiceTest {
         when(calificacionesRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(CalificacionNotFoundException.class, ()->{calificacionesService.deleteCalificaciones(id);});
+        var exp = Assertions.assertThrows(CalificacionNotFoundException.class, ()->{calificacionesService.delete(id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -339,8 +339,8 @@ public class CalificacionesServiceTest {
         var calificaciones = new ArrayList<Calificacion>();
         calificaciones.add(calificacion);
 
-        var notasEstudiantesProfesorODT = new ArrayList<NotasEstudianteProfesorODT>();
-        notasEstudiantesProfesorODT.add(new NotasEstudianteProfesorODT(calificacion));
+        var notasEstudiantesProfesorODT = new ArrayList<NotasEstudianteProfesorDTO>();
+        notasEstudiantesProfesorODT.add(new NotasEstudianteProfesorDTO(calificacion));
 
         when(calificacionesRepository.findCalificacionesByProfesorId(id)).thenReturn(calificaciones);
 
@@ -369,8 +369,8 @@ public class CalificacionesServiceTest {
         var calificaciones = new ArrayList<Calificacion>();
         calificaciones.add(calificacion);
 
-        var notasEstudiantesProfesorODT = new ArrayList<NotasEstudianteProfesorODT>();
-        notasEstudiantesProfesorODT.add(new NotasEstudianteProfesorODT(calificacion));
+        var notasEstudiantesProfesorODT = new ArrayList<NotasEstudianteProfesorDTO>();
+        notasEstudiantesProfesorODT.add(new NotasEstudianteProfesorDTO(calificacion));
 
         when(calificacionesRepository.findCalificacionByAlumnoId(id)).thenReturn(calificaciones);
 

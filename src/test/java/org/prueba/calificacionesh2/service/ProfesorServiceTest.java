@@ -45,7 +45,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.save(any(Profesor.class))).thenReturn(profesor);
 
         //Act
-        var response = profesorService.addProfesor(profesorDTO);
+        var response = profesorService.add(profesorDTO);
 
         //Assert
         assertThat(profesorDTO).isEqualTo(response);
@@ -64,7 +64,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.findAll()).thenReturn(profesores);
 
         //Act
-        var response = profesorService.getAllProfesores();
+        var response = profesorService.getAll();
 
         //Assert
         assertThat(profesoresODT).isEqualTo(response);
@@ -77,7 +77,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.findAll()).thenReturn(new ArrayList<>());
 
         //Act
-        var response = profesorService.getAllProfesores();
+        var response = profesorService.getAll();
 
         //Assert
         assertThat(response).isEmpty();
@@ -97,7 +97,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.findById(id)).thenReturn(Optional.of(profesor));
 
         //Act
-        var response = profesorService.getProfesorById(id);
+        var response = profesorService.getById(id);
 
         //Assert
         assertThat(profesorODT).isEqualTo(response);
@@ -112,7 +112,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(ProfesorNotFoundException.class,() ->{profesorService.getProfesorById(id);});
+        var exp = Assertions.assertThrows(ProfesorNotFoundException.class,() ->{profesorService.getById(id);});
 
         //Assertion
         Assertions.assertNotNull(exp);
@@ -133,7 +133,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.save(any(Profesor.class))).thenReturn(profesor);
 
         //Act
-        var response = profesorService.updateProfesor(id,profesorDTO);
+        var response = profesorService.update(profesorDTO,id);
 
         //Assert
         assertThat(profesorDTO).isEqualTo(response);
@@ -150,7 +150,7 @@ public class ProfesorServiceTest {
 
         //Act
 
-        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, () -> {profesorService.updateProfesor(id, new ProfesorDTO());});
+        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, () -> {profesorService.update(new ProfesorDTO(),id);});
 
         //Assert
         Assertions.assertNotNull(exp);
@@ -168,7 +168,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.findById(id)).thenReturn(Optional.of(profesor));
 
         //Act
-        profesorService.deleteProfesor(id);
+        profesorService.delete(id);
 
         //Assert
         verify(profesorRepository, times(1)).findById(id);
@@ -182,7 +182,7 @@ public class ProfesorServiceTest {
         when(profesorRepository.findById(id)).thenReturn(Optional.empty());
 
         //Act
-        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, () -> {profesorService.deleteProfesor(id);});
+        var exp = Assertions.assertThrows(ProfesorNotFoundException.class, () -> {profesorService.delete(id);});
 
         //Assert
         Assertions.assertNotNull(exp);

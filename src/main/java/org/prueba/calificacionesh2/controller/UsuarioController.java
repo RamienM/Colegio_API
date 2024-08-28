@@ -30,7 +30,7 @@ public class UsuarioController {
 
 
     @PostMapping("/auth/register")
-    public Usuario registro(@RequestBody UsuarioRegisterDTO register){
+    public Usuario registro(@Valid @RequestBody UsuarioRegisterDTO register){
         return usuarioService.registrarUsuario(register);
     }
 
