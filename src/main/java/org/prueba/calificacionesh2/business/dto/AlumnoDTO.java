@@ -1,6 +1,7 @@
 package org.prueba.calificacionesh2.business.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.prueba.calificacionesh2.persistence.entity.Alumno;
@@ -11,11 +12,17 @@ import org.prueba.calificacionesh2.persistence.entity.Alumno;
 public class AlumnoDTO {
     private Integer id;
 
+    @NotNull
     @NotBlank
     private String nombre;
-
+    @NotNull
+    @NotBlank
     private String apellido;
+    @NotNull
+    @NotBlank
     private String correo;
+    @NotNull
+    @NotBlank
     private String telefono;
 
     public AlumnoDTO() {}

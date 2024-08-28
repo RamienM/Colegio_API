@@ -1,15 +1,25 @@
 package org.prueba.calificacionesh2.business.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.prueba.calificacionesh2.persistence.entity.Calificacion;
 
 @Data
 public class CalificacionDTO {
     private Integer id;
+
+    @NotNull
     private Integer idAlumno;
+
     private String nombreAlumno;
+
+    @NotNull
     private Float mark;
+
+    @NotNull
     private Integer idAsignatura;
+
     private String nombreAsignatura;
 
     public CalificacionDTO() {}
