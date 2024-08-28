@@ -1,5 +1,6 @@
 package org.prueba.calificacionesh2.controller;
 
+import jakarta.validation.Valid;
 import org.prueba.calificacionesh2.business.dto.AsignaturaDTO;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
 import org.prueba.calificacionesh2.business.exception.ProfesorNotFoundException;
@@ -38,7 +39,7 @@ public class AsignaturasController {
     @PostMapping("/asignaturas")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseBody
-    public ResponseEntity<AsignaturaDTO> addAsignatura(@RequestBody AsignaturaDTO asignaturaDTO) {
+    public ResponseEntity<AsignaturaDTO> addAsignatura(@Valid @RequestBody AsignaturaDTO asignaturaDTO) {
         try {
             return new ResponseEntity<>(asignaturaService.add(asignaturaDTO),HttpStatus.CREATED);
         }catch (ProfesorNotFoundException e){

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prueba.calificacionesh2.business.dto.AsignaturaDTO;
 import org.prueba.calificacionesh2.business.dto.CalificacionDTO;
 import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorDTO;
 import org.prueba.calificacionesh2.persistence.entity.Usuario;
