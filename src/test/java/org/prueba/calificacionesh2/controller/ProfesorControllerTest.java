@@ -60,7 +60,7 @@ public class ProfesorControllerTest {
         profesor.setTelefono("123456789");
         profesor.setCorreo("ruben.ramis@patterson.agency");
 
-        when(profesorService.addProfesor(any(ProfesorDTO.class))).thenReturn(profesor);
+        when(profesorService.add(any(ProfesorDTO.class))).thenReturn(profesor);
 
         //Act
         var result = mockMvc.perform(post("/profesores").contentType(MediaType.APPLICATION_JSON)
@@ -72,7 +72,7 @@ public class ProfesorControllerTest {
                 .andExpect(jsonPath("$.apellido").value(profesor.getApellido()))
                 .andExpect(jsonPath("$.telefono").value(profesor.getTelefono()))
                 .andExpect(jsonPath("$.correo").value(profesor.getCorreo()));
-        verify(profesorService,times(1)).addProfesor(any(ProfesorDTO.class));
+        verify(profesorService,times(1)).add(any(ProfesorDTO.class));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class ProfesorControllerTest {
         //Arrange
         var profesores = new ArrayList<ProfesorDTO>();
 
-        when(profesorService.getAllProfesores()).thenReturn(profesores);
+        when(profesorService.getAll()).thenReturn(profesores);
 
         //Act
         var result = mockMvc.perform(get("/profesores"));
@@ -88,7 +88,7 @@ public class ProfesorControllerTest {
         //Assert
         result.andExpect(status().isOk())
                 .andExpect(content().json("[]"));
-        verify(profesorService,times(1)).getAllProfesores();
+        verify(profesorService,times(1)).getAll();
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ProfesorControllerTest {
         profesor.setTelefono("123456789");
         profesor.setCorreo("ruben.ramis@patterson.agency");
 
-        when(profesorService.getProfesorById(id)).thenReturn(profesor);
+        when(profesorService.getById(id)).thenReturn(profesor);
 
         //Act
         var result = mockMvc.perform(get("/profesores/" + id));
@@ -113,7 +113,7 @@ public class ProfesorControllerTest {
                 .andExpect(jsonPath("$.apellido").value(profesor.getApellido()))
                 .andExpect(jsonPath("$.telefono").value(profesor.getTelefono()))
                 .andExpect(jsonPath("$.correo").value(profesor.getCorreo()));
-        verify(profesorService,times(1)).getProfesorById(id);
+        verify(profesorService,times(1)).getById(id);
     }
 
     @Test
@@ -121,14 +121,14 @@ public class ProfesorControllerTest {
         //Arrange
         int id = 1;
 
-        when(profesorService.getProfesorById(id)).thenThrow(ProfesorNotFoundException.class);
+        when(profesorService.getById(id)).thenThrow(ProfesorNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(get("/profesores/" + id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(profesorService,times(1)).getProfesorById(id);
+        verify(profesorService,times(1)).getById(id);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class ProfesorControllerTest {
         profesor.setTelefono("123456789");
         profesor.setCorreo("ruben.ramis@patterson.agency");
 
-        when(profesorService.updateProfesor(any(Integer.class),any(ProfesorDTO.class))).thenReturn(profesor);
+        when(profesorService.update(any(ProfesorDTO.class),any(Integer.class))).thenReturn(profesor);
 
         //Act
         var result = mockMvc.perform(patch("/profesores/"+id).contentType(MediaType.APPLICATION_JSON)
@@ -154,7 +154,7 @@ public class ProfesorControllerTest {
                 .andExpect(jsonPath("$.apellido").value(profesor.getApellido()))
                 .andExpect(jsonPath("$.telefono").value(profesor.getTelefono()))
                 .andExpect(jsonPath("$.correo").value(profesor.getCorreo()));
-        verify(profesorService,times(1)).updateProfesor(any(Integer.class),any(ProfesorDTO.class));
+        verify(profesorService,times(1)).update(any(ProfesorDTO.class),any(Integer.class));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class ProfesorControllerTest {
         profesor.setTelefono("123456789");
         profesor.setCorreo("ruben.ramis@patterson.agency");
 
-        when(profesorService.updateProfesor(any(Integer.class),any(ProfesorDTO.class))).thenThrow(ProfesorNotFoundException.class);
+        when(profesorService.update(any(ProfesorDTO.class),any(Integer.class))).thenThrow(ProfesorNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/profesores/"+id)
@@ -177,7 +177,7 @@ public class ProfesorControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(profesorService, times(1)).updateProfesor(any(Integer.class),any(ProfesorDTO.class));
+        verify(profesorService, times(1)).update(any(ProfesorDTO.class),any(Integer.class));
     }
 
     @Test
@@ -185,13 +185,13 @@ public class ProfesorControllerTest {
         //Arrange
         int id = 1;
 
-        doNothing().when(profesorService).deleteProfesor(id);
+        doNothing().when(profesorService).delete(id);
         //Act
         var result = mockMvc.perform(delete("/profesores/"+id));
 
         //Assert
         result.andExpect(status().isOk());
-        verify(profesorService,times(1)).deleteProfesor(id);
+        verify(profesorService,times(1)).delete(id);
     }
 
     @Test
@@ -199,13 +199,13 @@ public class ProfesorControllerTest {
         //Arrange
         int id = 1;
 
-        doThrow(ProfesorNotFoundException.class).when(profesorService).deleteProfesor(id);
+        doThrow(ProfesorNotFoundException.class).when(profesorService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/profesores/"+id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(profesorService,times(1)).deleteProfesor(id);
+        verify(profesorService,times(1)).delete(id);
     }
 }

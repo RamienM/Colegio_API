@@ -5,8 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prueba.calificacionesh2.business.dto.AsignaturaDTO;
 import org.prueba.calificacionesh2.business.dto.CalificacionDTO;
-import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorODT;
+import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorDTO;
 import org.prueba.calificacionesh2.persistence.entity.Usuario;
 import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
@@ -64,7 +65,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.addCalificaciones(any(CalificacionDTO.class))).thenReturn(calificacion);
+        when(calificacionesService.add(any(CalificacionDTO.class))).thenReturn(calificacion);
 
         //Act
         var result = mockMvc.perform(post("/calificaciones")
@@ -76,7 +77,7 @@ public class CalificacionesControllerTest {
                 .andExpect(jsonPath("$.idAlumno").value(calificacion.getIdAlumno()))
                 .andExpect(jsonPath("$.mark").value(calificacion.getMark()))
                 .andExpect(jsonPath("$.idAsignatura").value(calificacion.getIdAsignatura()));
-        verify(calificacionesService,times(1)).addCalificaciones(any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).add(any(CalificacionDTO.class));
     }
 
     @Test
@@ -89,7 +90,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.addCalificaciones(any(CalificacionDTO.class))).thenThrow(AsignaturaNotFoundException.class);
+        when(calificacionesService.add(any(CalificacionDTO.class))).thenThrow(AsignaturaNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(post("/calificaciones")
@@ -98,7 +99,7 @@ public class CalificacionesControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).addCalificaciones(any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).add(any(CalificacionDTO.class));
     }
 
     @Test
@@ -111,7 +112,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.addCalificaciones(any(CalificacionDTO.class))).thenThrow(AlumnoNotFoundException.class);
+        when(calificacionesService.add(any(CalificacionDTO.class))).thenThrow(AlumnoNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(post("/calificaciones")
@@ -120,7 +121,7 @@ public class CalificacionesControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).addCalificaciones(any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).add(any(CalificacionDTO.class));
     }
 
     @Test
@@ -128,7 +129,7 @@ public class CalificacionesControllerTest {
         //Arrange
         var calificaciones = new ArrayList<CalificacionDTO>();
 
-        when(calificacionesService.getAllCalificaciones()).thenReturn(calificaciones);
+        when(calificacionesService.getAll()).thenReturn(calificaciones);
 
         //Act
         var result = mockMvc.perform(get("/calificaciones"));
@@ -136,7 +137,7 @@ public class CalificacionesControllerTest {
         //Assert
         result.andExpect(status().isOk())
                 .andExpect(content().json("[]"));
-        verify(calificacionesService,times(1)).getAllCalificaciones();
+        verify(calificacionesService,times(1)).getAll();
     }
 
     @Test
@@ -149,7 +150,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.getCalificacionesById(id)).thenReturn(calificacion);
+        when(calificacionesService.getById(id)).thenReturn(calificacion);
 
         //Act
         var result = mockMvc.perform(get("/calificaciones/" + id));
@@ -159,7 +160,7 @@ public class CalificacionesControllerTest {
                 .andExpect(jsonPath("$.idAlumno").value(calificacion.getIdAlumno()))
                 .andExpect(jsonPath("$.mark").value(calificacion.getMark()))
                 .andExpect(jsonPath("$.idAsignatura").value(calificacion.getIdAsignatura()));
-        verify(calificacionesService,times(1)).getCalificacionesById(id);
+        verify(calificacionesService,times(1)).getById(id);
     }
 
     @Test
@@ -167,14 +168,14 @@ public class CalificacionesControllerTest {
         //Arrange
         int id = 1;
 
-        when(calificacionesService.getCalificacionesById(any(Integer.class))).thenThrow(CalificacionNotFoundException.class);
+        when(calificacionesService.getById(any(Integer.class))).thenThrow(CalificacionNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(get("/calificaciones/" + id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).getCalificacionesById(id);
+        verify(calificacionesService,times(1)).getById(id);
     }
 
     @Test
@@ -187,7 +188,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.updateCalificaciones(any(Integer.class),any(CalificacionDTO.class))).thenReturn(calificacion);
+        when(calificacionesService.update(any(CalificacionDTO.class),any(Integer.class))).thenReturn(calificacion);
 
         //Act
         var result = mockMvc.perform(patch("/calificaciones/"+id)
@@ -199,7 +200,7 @@ public class CalificacionesControllerTest {
                 .andExpect(jsonPath("$.idAlumno").value(calificacion.getIdAlumno()))
                 .andExpect(jsonPath("$.mark").value(calificacion.getMark()))
                 .andExpect(jsonPath("$.idAsignatura").value(calificacion.getIdAsignatura()));
-        verify(calificacionesService,times(1)).updateCalificaciones(any(Integer.class),any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).update(any(CalificacionDTO.class),any(Integer.class));
     }
 
     @Test
@@ -212,7 +213,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.updateCalificaciones(any(Integer.class),any(CalificacionDTO.class))).thenThrow(CalificacionNotFoundException.class);
+        when(calificacionesService.update(any(CalificacionDTO.class),any(Integer.class))).thenThrow(CalificacionNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/calificaciones/"+id)
@@ -221,7 +222,7 @@ public class CalificacionesControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).updateCalificaciones(any(Integer.class),any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).update(any(CalificacionDTO.class),any(Integer.class));
     }
 
     @Test
@@ -234,7 +235,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.updateCalificaciones(any(Integer.class),any(CalificacionDTO.class))).thenThrow(AsignaturaNotFoundException.class);
+        when(calificacionesService.update(any(CalificacionDTO.class),any(Integer.class))).thenThrow(AsignaturaNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/calificaciones/"+id)
@@ -243,7 +244,7 @@ public class CalificacionesControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).updateCalificaciones(any(Integer.class),any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).update(any(CalificacionDTO.class),any(Integer.class));
     }
 
     @Test
@@ -256,7 +257,7 @@ public class CalificacionesControllerTest {
         calificacion.setMark(7.0f);
         calificacion.setIdAsignatura(id);
 
-        when(calificacionesService.updateCalificaciones(any(Integer.class),any(CalificacionDTO.class))).thenThrow(AlumnoNotFoundException.class);
+        when(calificacionesService.update(any(CalificacionDTO.class),any(Integer.class))).thenThrow(AlumnoNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/calificaciones/"+id)
@@ -265,42 +266,42 @@ public class CalificacionesControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).updateCalificaciones(any(Integer.class),any(CalificacionDTO.class));
+        verify(calificacionesService,times(1)).update(any(CalificacionDTO.class),any(Integer.class));
     }
 
     @Test
     void deleteCalificacionTest() throws Exception {
         //Arrange
         int id = 1;
-        doNothing().when(calificacionesService).deleteCalificaciones(id);
+        doNothing().when(calificacionesService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/calificaciones/"+id));
 
         //Assert
         result.andExpect(status().isOk());
-        verify(calificacionesService,times(1)).deleteCalificaciones(id);
+        verify(calificacionesService,times(1)).delete(id);
     }
 
     @Test
     void deleteCalificacionNotFoundException() throws Exception {
         //Arrange
         int id = 1;
-        doThrow(CalificacionNotFoundException.class).when(calificacionesService).deleteCalificaciones(id);
+        doThrow(CalificacionNotFoundException.class).when(calificacionesService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/calificaciones/"+id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(calificacionesService,times(1)).deleteCalificaciones(id);
+        verify(calificacionesService,times(1)).delete(id);
     }
 
     @Test
     void getCalificacionesEstudiantesAndAsignaturasByIdProfesorTest() throws Exception {
         //Arrange
         int id = 1;
-        var notas = new ArrayList<NotasEstudianteProfesorODT>();
+        var notas = new ArrayList<NotasEstudianteProfesorDTO>();
 
         when(calificacionesService.getCalificacionesEstudiantesAndAsignaturasByIdProfesor(id)).thenReturn(notas);
 
@@ -317,7 +318,7 @@ public class CalificacionesControllerTest {
     void getCalificacionesAsignaturasByIdAlumnoTest() throws Exception{
         //Arrange
         int id = 1;
-        var notas = new ArrayList<NotasEstudianteProfesorODT>();
+        var notas = new ArrayList<NotasEstudianteProfesorDTO>();
 
         when(calificacionesService.getCalificacionesAndAsignaturasByIdAlumno(id)).thenReturn(notas);
 

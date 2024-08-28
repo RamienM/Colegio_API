@@ -60,7 +60,7 @@ public class AlumnoControllerTest {
         alumno.setTelefono("123456789");
         alumno.setCorreo("ruben.ramis@patterson.agency");
 
-        when(alumnoService.addAlumno(any(AlumnoDTO.class))).thenReturn(alumno);
+        when(alumnoService.add(any(AlumnoDTO.class))).thenReturn(alumno);
 
         //Act
         ResultActions result = mockMvc.perform(post("/alumnos")
@@ -73,7 +73,7 @@ public class AlumnoControllerTest {
                 .andExpect(jsonPath("$.apellido").value(alumno.getApellido()))
                 .andExpect(jsonPath("$.telefono").value(alumno.getTelefono()))
                 .andExpect(jsonPath("$.correo").value(alumno.getCorreo()));
-        verify(alumnoService, times(1)).addAlumno(any(AlumnoDTO.class));
+        verify(alumnoService, times(1)).add(any(AlumnoDTO.class));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class AlumnoControllerTest {
         //Arrange
         var alumnos = new ArrayList<AlumnoDTO>();
 
-        when(alumnoService.getAllAlumnos()).thenReturn(alumnos);
+        when(alumnoService.getAll()).thenReturn(alumnos);
 
         //Act
         var result = mockMvc.perform(get("/alumnos"));
@@ -90,7 +90,7 @@ public class AlumnoControllerTest {
         //Assert
         result.andExpect(status().isOk())
                 .andExpect(content().json("[]"));
-        verify(alumnoService,times(1)).getAllAlumnos();
+        verify(alumnoService,times(1)).getAll();
     }
 
     @Test
@@ -104,7 +104,7 @@ public class AlumnoControllerTest {
         alumno.setTelefono("123456789");
         alumno.setCorreo("ruben.ramis@patterson.agency");
 
-        when(alumnoService.getAlumnoById(id)).thenReturn(alumno);
+        when(alumnoService.getById(id)).thenReturn(alumno);
 
         //Act
         ResultActions result = mockMvc.perform(get("/alumnos/"+id));
@@ -115,7 +115,7 @@ public class AlumnoControllerTest {
                 .andExpect(jsonPath("$.apellido").value(alumno.getApellido()))
                 .andExpect(jsonPath("$.telefono").value(alumno.getTelefono()))
                 .andExpect(jsonPath("$.correo").value(alumno.getCorreo()));
-        verify(alumnoService, times(1)).getAlumnoById(id);
+        verify(alumnoService, times(1)).getById(id);
     }
 
     @Test
@@ -123,14 +123,14 @@ public class AlumnoControllerTest {
         //Arrange
         int id =1;
 
-        when(alumnoService.getAlumnoById(any(Integer.class))).thenThrow(AlumnoNotFoundException.class);
+        when(alumnoService.getById(any(Integer.class))).thenThrow(AlumnoNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(get("/alumnos/"+id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(alumnoService,times(1)).getAlumnoById(id);
+        verify(alumnoService,times(1)).getById(id);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class AlumnoControllerTest {
         alumno.setTelefono("123456789");
         alumno.setCorreo("ruben.ramis@patterson.agency");
 
-        when(alumnoService.updateAlumno(any(Integer.class),any(AlumnoDTO.class))).thenReturn(alumno);
+        when(alumnoService.update(any(AlumnoDTO.class),any(Integer.class))).thenReturn(alumno);
 
         //Act
         ResultActions result = mockMvc.perform(patch("/alumnos/"+id)
@@ -157,7 +157,7 @@ public class AlumnoControllerTest {
                 .andExpect(jsonPath("$.apellido").value(alumno.getApellido()))
                 .andExpect(jsonPath("$.telefono").value(alumno.getTelefono()))
                 .andExpect(jsonPath("$.correo").value(alumno.getCorreo()));
-        verify(alumnoService, times(1)).updateAlumno(any(Integer.class),any(AlumnoDTO.class));
+        verify(alumnoService, times(1)).update(any(AlumnoDTO.class),any(Integer.class));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class AlumnoControllerTest {
         alumno.setTelefono("123456789");
         alumno.setCorreo("ruben.ramis@patterson.agency");
 
-        when(alumnoService.updateAlumno(any(Integer.class),any(AlumnoDTO.class))).thenThrow(AlumnoNotFoundException.class);
+        when(alumnoService.update(any(AlumnoDTO.class),any(Integer.class))).thenThrow(AlumnoNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/alumnos/"+id)
@@ -179,7 +179,7 @@ public class AlumnoControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(alumnoService,times(1)).updateAlumno(any(Integer.class),any(AlumnoDTO.class));
+        verify(alumnoService,times(1)).update(any(AlumnoDTO.class),any(Integer.class));
     }
 
     @Test
@@ -187,14 +187,14 @@ public class AlumnoControllerTest {
         //Arrange
         int id = 1;
 
-        doNothing().when(alumnoService).deleteAlumno(id);
+        doNothing().when(alumnoService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/alumnos/"+id));
 
         //Assert
         result.andExpect(status().isOk());
-        verify(alumnoService,times(1)).deleteAlumno(id);
+        verify(alumnoService,times(1)).delete(id);
     }
 
     @Test
@@ -202,13 +202,13 @@ public class AlumnoControllerTest {
         //Arrange
         int id =1;
 
-        Mockito.doThrow(AlumnoNotFoundException.class).when(alumnoService).deleteAlumno(id);
+        Mockito.doThrow(AlumnoNotFoundException.class).when(alumnoService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/alumnos/"+id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(alumnoService,times(1)).deleteAlumno(id);
+        verify(alumnoService,times(1)).delete(id);
     }
 }

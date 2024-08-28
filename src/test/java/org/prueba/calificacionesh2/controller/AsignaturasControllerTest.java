@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prueba.calificacionesh2.business.dto.AlumnoDTO;
 import org.prueba.calificacionesh2.business.dto.AsignaturaDTO;
 import org.prueba.calificacionesh2.persistence.entity.Usuario;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
@@ -61,7 +62,7 @@ public class AsignaturasControllerTest {
         asignatura.setIdProfesor(id);
         asignatura.setNombreAsignatura("Spring");
 
-        when(asignaturasService.addAsignatura(any(AsignaturaDTO.class))).thenReturn(asignatura);
+        when(asignaturasService.add(any(AsignaturaDTO.class))).thenReturn(asignatura);
 
         //Act
         var result = mockMvc.perform(post("/asignaturas").contentType(MediaType.APPLICATION_JSON).content(jacksonObjectMapper.writeValueAsString(asignatura)));
@@ -70,7 +71,7 @@ public class AsignaturasControllerTest {
         result.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nombreAsignatura").value(asignatura.getNombreAsignatura()))
                 .andExpect(jsonPath("$.idProfesor").value(asignatura.getIdProfesor()));
-        verify(asignaturasService,times(1)).addAsignatura(any(AsignaturaDTO.class));
+        verify(asignaturasService,times(1)).add(any(AsignaturaDTO.class));
     }
 
     @Test
@@ -79,14 +80,14 @@ public class AsignaturasControllerTest {
         var asignatura = new AsignaturaDTO();
         asignatura.setNombreAsignatura("Spring");
 
-        when(asignaturasService.addAsignatura(any(AsignaturaDTO.class))).thenThrow(ProfesorNotFoundException.class);
+        when(asignaturasService.add(any(AsignaturaDTO.class))).thenThrow(ProfesorNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(post("/asignaturas").contentType(MediaType.APPLICATION_JSON).content(jacksonObjectMapper.writeValueAsString(asignatura)));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(asignaturasService,times(1)).addAsignatura(any(AsignaturaDTO.class));
+        verify(asignaturasService,times(1)).add(any(AsignaturaDTO.class));
     }
 
     @Test
@@ -94,7 +95,7 @@ public class AsignaturasControllerTest {
         //Arrange
         var asignaturas = new ArrayList<AsignaturaDTO>();
 
-        when(asignaturasService.getAllAsignaturas()).thenReturn(asignaturas);
+        when(asignaturasService.getAll()).thenReturn(asignaturas);
 
         //Act
         var result = mockMvc.perform(get("/asignaturas"));
@@ -102,7 +103,7 @@ public class AsignaturasControllerTest {
         //Assertç
         result.andExpect(status().isOk())
                 .andExpect(content().json("[]"));
-        verify(asignaturasService,times(1)).getAllAsignaturas();
+        verify(asignaturasService,times(1)).getAll();
 
     }
 
@@ -115,7 +116,7 @@ public class AsignaturasControllerTest {
         asignatura.setIdProfesor(1);
         asignatura.setNombreAsignatura("Spring");
 
-        when(asignaturasService.getAsignaturaById(id)).thenReturn(asignatura);
+        when(asignaturasService.getById(id)).thenReturn(asignatura);
 
         //Act
         var result = mockMvc.perform(get("/asignaturas/" + id));
@@ -124,7 +125,7 @@ public class AsignaturasControllerTest {
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombreAsignatura").value(asignatura.getNombreAsignatura()))
                 .andExpect(jsonPath("$.idProfesor").value(asignatura.getIdProfesor()));
-        verify(asignaturasService,times(1)).getAsignaturaById(id);
+        verify(asignaturasService,times(1)).getById(id);
     }
 
     @Test
@@ -132,14 +133,14 @@ public class AsignaturasControllerTest {
         //Arrange
         int id = 1;
 
-        when(asignaturasService.getAsignaturaById(any(Integer.class))).thenThrow(AsignaturaNotFoundException.class);
+        when(asignaturasService.getById(any(Integer.class))).thenThrow(AsignaturaNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(get("/asignaturas/"+id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(asignaturasService,times(1)).getAsignaturaById(id);
+        verify(asignaturasService,times(1)).getById(id);
     }
 
     @Test
@@ -151,7 +152,7 @@ public class AsignaturasControllerTest {
         asignatura.setIdProfesor(id);
         asignatura.setNombreAsignatura("Spring");
 
-        when(asignaturasService.updateAsignatura(any(Integer.class),any(AsignaturaDTO.class))).thenReturn(asignatura);
+        when(asignaturasService.update(any(AsignaturaDTO.class),any(Integer.class))).thenReturn(asignatura);
 
         //Act
         var result = mockMvc.perform(patch("/asignaturas/"+id)
@@ -162,7 +163,7 @@ public class AsignaturasControllerTest {
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombreAsignatura").value(asignatura.getNombreAsignatura()))
                 .andExpect(jsonPath("$.idProfesor").value(asignatura.getIdProfesor()));
-        verify(asignaturasService,times(1)).updateAsignatura(any(Integer.class),any(AsignaturaDTO.class));
+        verify(asignaturasService,times(1)).update(any(AsignaturaDTO.class),any(Integer.class));
     }
 
     @Test
@@ -174,7 +175,7 @@ public class AsignaturasControllerTest {
         asignatura.setIdProfesor(id);
         asignatura.setNombreAsignatura("Spring");
 
-        when(asignaturasService.updateAsignatura(any(Integer.class),any(AsignaturaDTO.class))).thenThrow(AsignaturaNotFoundException.class);
+        when(asignaturasService.update(any(AsignaturaDTO.class),any(Integer.class))).thenThrow(AsignaturaNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/asignaturas/"+id)
@@ -183,7 +184,7 @@ public class AsignaturasControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(asignaturasService,times(1)).updateAsignatura(any(Integer.class),any(AsignaturaDTO.class));
+        verify(asignaturasService,times(1)).update(any(AsignaturaDTO.class),any(Integer.class));
     }
     @Test
     void updateAsignaturaProfesorNotFoundTest() throws Exception {
@@ -194,7 +195,7 @@ public class AsignaturasControllerTest {
         asignatura.setIdProfesor(id);
         asignatura.setNombreAsignatura("Spring");
 
-        when(asignaturasService.updateAsignatura(any(Integer.class),any(AsignaturaDTO.class))).thenThrow(ProfesorNotFoundException.class);
+        when(asignaturasService.update(any(AsignaturaDTO.class),any(Integer.class))).thenThrow(ProfesorNotFoundException.class);
 
         //Act
         var result = mockMvc.perform(patch("/asignaturas/"+id)
@@ -203,7 +204,7 @@ public class AsignaturasControllerTest {
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(asignaturasService,times(1)).updateAsignatura(any(Integer.class),any(AsignaturaDTO.class));
+        verify(asignaturasService,times(1)).update(any(AsignaturaDTO.class),any(Integer.class));
     }
 
     @Test
@@ -211,14 +212,14 @@ public class AsignaturasControllerTest {
         //Arrange
         int id = 1;
 
-        doNothing().when(asignaturasService).deleteAsignatura(id);
+        doNothing().when(asignaturasService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/asignaturas/"+id));
 
         //Assert
         result.andExpect(status().isOk());
-        verify(asignaturasService,times(1)).deleteAsignatura(id);
+        verify(asignaturasService,times(1)).delete(id);
     }
 
     @Test
@@ -226,14 +227,14 @@ public class AsignaturasControllerTest {
         //Arrange
         int id = 1;
 
-        doThrow(AsignaturaNotFoundException.class).when(asignaturasService).deleteAsignatura(id);
+        doThrow(AsignaturaNotFoundException.class).when(asignaturasService).delete(id);
 
         //Act
         var result = mockMvc.perform(delete("/asignaturas/"+id));
 
         //Assert
         result.andExpect(status().isNotFound());
-        verify(asignaturasService,times(1)).deleteAsignatura(id);
+        verify(asignaturasService,times(1)).delete(id);
     }
 
 }

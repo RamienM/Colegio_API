@@ -1,7 +1,7 @@
 package org.prueba.calificacionesh2.business.service;
 
 import org.prueba.calificacionesh2.business.dto.CalificacionDTO;
-import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorODT;
+import org.prueba.calificacionesh2.business.dto.NotasEstudianteProfesorDTO;
 import org.prueba.calificacionesh2.business.exception.AlumnoNotFoundException;
 import org.prueba.calificacionesh2.business.exception.AsignaturaNotFoundException;
 import org.prueba.calificacionesh2.business.exception.CalificacionNotFoundException;
@@ -101,15 +101,15 @@ public class CalificacionesService implements ServiceInterface<CalificacionDTO> 
     }
 
 
-    public List<NotasEstudianteProfesorODT> getCalificacionesEstudiantesAndAsignaturasByIdProfesor(Integer idProfesor){
+    public List<NotasEstudianteProfesorDTO> getCalificacionesEstudiantesAndAsignaturasByIdProfesor(Integer idProfesor){
         var calificaciones = calificacionesRepository.findCalificacionesByProfesorId(idProfesor);
         if(calificaciones.isEmpty()) return new ArrayList<>();
 
-        var notasEstudiantes = new ArrayList<NotasEstudianteProfesorODT>();
-        NotasEstudianteProfesorODT notaEstudiante;
+        var notasEstudiantes = new ArrayList<NotasEstudianteProfesorDTO>();
+        NotasEstudianteProfesorDTO notaEstudiante;
 
         for(var calificacion : calificaciones){
-            notaEstudiante = new NotasEstudianteProfesorODT(calificacion);
+            notaEstudiante = new NotasEstudianteProfesorDTO(calificacion);
 
             notasEstudiantes.add(notaEstudiante);
         }
@@ -117,15 +117,15 @@ public class CalificacionesService implements ServiceInterface<CalificacionDTO> 
         return notasEstudiantes;
     }
 
-    public List<NotasEstudianteProfesorODT> getCalificacionesAndAsignaturasByIdAlumno(Integer idAlumno){
+    public List<NotasEstudianteProfesorDTO> getCalificacionesAndAsignaturasByIdAlumno(Integer idAlumno){
         var calificaciones = calificacionesRepository.findCalificacionByAlumnoId(idAlumno);
         if(calificaciones.isEmpty()) return new ArrayList<>();
 
-        var notasEstudiantes = new ArrayList<NotasEstudianteProfesorODT>();
-        NotasEstudianteProfesorODT notaEstudiante;
+        var notasEstudiantes = new ArrayList<NotasEstudianteProfesorDTO>();
+        NotasEstudianteProfesorDTO notaEstudiante;
 
         for(var calificacion : calificaciones){
-            notaEstudiante = new NotasEstudianteProfesorODT(calificacion);
+            notaEstudiante = new NotasEstudianteProfesorDTO(calificacion);
 
             notasEstudiantes.add(notaEstudiante);
         }
