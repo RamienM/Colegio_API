@@ -78,6 +78,7 @@ public class AsignaturasControllerTest {
         //Arrange
         var asignatura = new AsignaturaDTO();
         asignatura.setNombreAsignatura("Spring");
+        asignatura.setIdProfesor(1);
 
         when(asignaturasService.add(any(AsignaturaDTO.class))).thenThrow(ProfesorNotFoundException.class);
 

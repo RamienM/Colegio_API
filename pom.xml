@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.prueba</groupId>
-    <artifactId>CalificacionesH2</artifactId>
+    <artifactId>Colegio_API</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>CalificacionesH2</name>
-    <description>CalificacionesH2</description>
+    <name>Colegio_API</name>
+    <description>Colegio_API</description>
     <url/>
     <licenses>
         <license/>
